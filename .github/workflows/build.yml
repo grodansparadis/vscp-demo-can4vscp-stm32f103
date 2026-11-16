@@ -1,0 +1,43 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  firmware:
+    name: Firmware and tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install the toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-arm-none-eabi libnewlib-arm-none-eabi cmake make
+
+      - name: Run the host tests
+        run: |
+          cmake -S tests -B build-tests
+          cmake --build build-tests
+          ctest --test-dir build-tests --output-on-failure
+
+      - name: Build the firmware
+        run: |
+          cmake -S firmware -B build -DCMAKE_TOOLCHAIN_FILE=cmake/gcc-arm-none-eabi.cmake -DCMAKE_BUILD_TYPE=Release
+          cmake --build build -j"$(nproc)"
+
+      - name: Collect the firmware files
+        run: |
+          mkdir artifact
+          cp build/firmware.elf build/firmware.hex build/firmware.bin artifact/
+          cd artifact && sha256sum firmware.* > SHA256SUMS
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vscp-demo-can4vscp-stm32f103-firmware
+          path: artifact/
