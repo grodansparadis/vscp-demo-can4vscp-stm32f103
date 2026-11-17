@@ -410,9 +410,10 @@ do_button(void)
       }
 
       if (g_persist.control & BLINKY_CTRL_ENABLE_BTN_START) {
+        // CLASS1.INFORMATION START reserves data[0]; zone and subzone are data[1:2].
         send_event(VSCP_CLASS1_INFORMATION,
                    VSCP_TYPE_INFORMATION_START,
-                   g_persist.button_byte0,
+                   0,
                    g_persist.button_zone,
                    g_persist.button_subzone);
       }
@@ -429,9 +430,10 @@ do_button(void)
     }
     else if ((VSCP_STATE_ACTIVE == vscp_node_state) && (g_persist.control & BLINKY_CTRL_ENABLE_BTN) &&
              (g_persist.control & BLINKY_CTRL_ENABLE_BTN_STOP)) {
+      // CLASS1.INFORMATION STOP reserves data[0]; zone and subzone are data[1:2].
       send_event(VSCP_CLASS1_INFORMATION,
                  VSCP_TYPE_INFORMATION_STOP,
-                 g_persist.button_byte0,
+                 0,
                  g_persist.button_zone,
                  g_persist.button_subzone);
     }
