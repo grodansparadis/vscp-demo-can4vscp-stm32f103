@@ -19,7 +19,7 @@ registers below with names and descriptions.
 | 7 | Millisecond counter, byte 2 | rw | | no | |
 | 8 | Millisecond counter, byte 1 | rw | | no | |
 | 9 | Millisecond counter, byte 0 (LSB) | rw | | no | Writing any value to any of registers 6 - 9 clears the counter |
-| 10 | Button data byte 0 | rw | 1 | yes | Data byte 0 of the button events |
+| 10 | Button data byte 0 | rw | 1 | yes | Data byte 0 of the TURN-ON button event only; START/STOP reserve byte 0 and send zero |
 | 11 | Button zone | rw | 1 | yes | Zone (data byte 1) of the button events |
 | 12 | Button subzone | rw | 1 | yes | Subzone (data byte 2) of the button events |
 | 0x60 - 0x7F | Decision matrix | rw | 0 | yes | Four rows of eight bytes |
@@ -82,13 +82,13 @@ programmed per board.
 | ON | 20 CLASS1.INFORMATION | 3 | 0, zone, subzone | The LED was turned on by a register write or a decision matrix action |
 | OFF | 20 CLASS1.INFORMATION | 4 | 0, zone, subzone | The LED was turned off in the same way |
 | TURN-ON | 30 CLASS1.CONTROL | 5 | byte 0, button zone, button subzone | Button pressed (control bit 3) |
-| START | 20 CLASS1.INFORMATION | 25 | byte 0, button zone, button subzone | Button pressed (control bit 2) |
-| STOP | 20 CLASS1.INFORMATION | 24 | byte 0, button zone, button subzone | Button released (control bit 1) |
+| START | 20 CLASS1.INFORMATION | 25 | 0, button zone, button subzone | Button pressed (control bit 2) |
+| STOP | 20 CLASS1.INFORMATION | 24 | 0, button zone, button subzone | Button released (control bit 1) |
 
 The periodic blink does not send ON and OFF events. With the default
 interval that would be two events every second from every blinky node.
 
-The node also answers the CLASS1.PROTOCOL events addressed to it: register
+START and STOP are button-state notifications, not CLASS1.CONTROL commands. For both events, data byte 0 is reserved and must be zero; register 10 applies only to the TURN-ON event.\n\nThe node also answers the CLASS1.PROTOCOL events addressed to it: register
 read and write, page read and write, who is there, decision matrix info,
 set and drop nickname, and so on. That is all done by `vscp-firmware.c`.
 
