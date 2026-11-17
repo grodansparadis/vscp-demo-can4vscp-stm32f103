@@ -278,11 +278,23 @@ int main(void)
   CHECK(sent(VSCP_CLASS1_CONTROL, VSCP_TYPE_CONTROL_TURNON, &f));
   CHECK(f.id == make_id(3, VSCP_CLASS1_CONTROL, VSCP_TYPE_CONTROL_TURNON, 2));
   CHECK((3 == f.dlc) && (7 == f.data[0]) && (8 == f.data[1]) && (9 == f.data[2]));
-  CHECK(sent(VSCP_CLASS1_INFORMATION, VSCP_TYPE_INFORMATION_START, NULL));
+  // START is a CLASS1.INFORMATION event (class 20, type 25).
+  // Its first data byte is reserved and must be zero; zone/subzone follow.
+  CHECK(sent(VSCP_CLASS1_INFORMATION, VSCP_TYPE_INFORMATION_START, &f));
+  CHECK(f.id == make_id(3, VSCP_CLASS1_INFORMATION, VSCP_TYPE_INFORMATION_START, 2));
+  CHECK((CAN_ID_EXT == f.ide) && (3 == f.dlc));
+  CHECK((0 == f.data[0]) && (8 == f.data[1]) && (9 == f.data[2]));
+  CHECK(!sent(VSCP_CLASS1_CONTROL, VSCP_TYPE_CONTROL_START, NULL));
   CHECK(BLINKY_STATUS_BTN_ON == read_reg(2, BLINKY_REG_STATUS));
+
   g_test_pins[2] = GPIO_PIN_SET;   // Released
   run_ms(40);
-  CHECK(sent(VSCP_CLASS1_INFORMATION, VSCP_TYPE_INFORMATION_STOP, NULL));
+  // STOP is CLASS1.INFORMATION (class 20, type 24), with the same payload.
+  CHECK(sent(VSCP_CLASS1_INFORMATION, VSCP_TYPE_INFORMATION_STOP, &f));
+  CHECK(f.id == make_id(3, VSCP_CLASS1_INFORMATION, VSCP_TYPE_INFORMATION_STOP, 2));
+  CHECK((CAN_ID_EXT == f.ide) && (3 == f.dlc));
+  CHECK((0 == f.data[0]) && (8 == f.data[1]) && (9 == f.data[2]));
+  CHECK(!sent(VSCP_CLASS1_CONTROL, VSCP_TYPE_CONTROL_STOP, NULL));
   CHECK(0 == s_txn);
 
   // --- Decision matrix ---
