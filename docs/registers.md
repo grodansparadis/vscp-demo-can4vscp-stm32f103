@@ -88,7 +88,9 @@ programmed per board.
 The periodic blink does not send ON and OFF events. With the default
 interval that would be two events every second from every blinky node.
 
-START and STOP are button-state notifications, not CLASS1.CONTROL commands. For both events, data byte 0 is reserved and must be zero; register 10 applies only to the TURN-ON event.\n\nThe node also answers the CLASS1.PROTOCOL events addressed to it: register
+START and STOP are button-state notifications, not CLASS1.CONTROL commands. For both events, data byte 0 is reserved and must be zero; register 10 applies only to the TURN-ON event.
+
+The node also answers the CLASS1.PROTOCOL events addressed to it: register
 read and write, page read and write, who is there, decision matrix info,
 set and drop nickname, and so on. That is all done by `vscp-firmware.c`.
 
