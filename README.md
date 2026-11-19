@@ -24,10 +24,16 @@ for your own CAN4VSCP node.
 
 More documentation:
 
+- [Documentation site source](docs/) (docsify)
 - [Hardware and wiring](docs/hardware.md)
 - [How the firmware works](docs/firmware.md)
 - [Registers, events and the decision matrix](docs/registers.md)
 - [Testing the node from a PC](docs/testing.md)
+
+To preview the docsify site locally, serve the repository's `docs` directory
+over HTTP, for example with `python3 -m http.server 8000 --directory docs`,
+and open <http://localhost:8000/>. The site loads docsify and its theme from
+CDNs and needs an internet connection.
 
 ## What the node does
 

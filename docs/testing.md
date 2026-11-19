@@ -100,6 +100,41 @@ can0  0C000A01   [2]  02 02
 [vscp-cli](https://github.com/grodansparadis/vscp-cli) does the same with
 less typing and knows the VSCP classes and types.
 
+### Install on Linux
+
+On Debian or Ubuntu, build and install the tools from source:
+
+```bash
+sudo apt install build-essential cmake git libmosquitto-dev libexpat1-dev libssl-dev libcurl4-openssl-dev
+git clone https://github.com/grodansparadis/vscp-cli.git
+cd vscp-cli
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel
+ctest --test-dir build --output-on-failure
+sudo cmake --install build
+vscp-send --version
+```
+
+The build needs CMake 3.16 or later, a C++17 compiler and an internet
+connection to fetch dependencies.
+
+Alternatively, download the Debian package for your architecture from a
+successful run on the [vscp-cli Actions page](https://github.com/grodansparadis/vscp-cli/actions).
+GitHub requires you to sign in to download artifacts. Extract the artifact,
+then verify and install it, substituting the actual file names:
+
+```bash
+sha256sum -c SHA256SUMS-vscp-cli-VERSION-linux-ARCH
+sudo apt install ./vscp-cli_VERSION_ARCH.deb
+vscp-send --version
+```
+
+See the
+[vscp-cli installation guide](https://github.com/grodansparadis/vscp-cli/blob/main/docs/installing.md)
+for package names and other platforms. SocketCAN is Linux-only.
+
+### Use the tools
+
 ```bash
 # Show events as VSCP events
 vscp-dump -i socketcan --device can0
@@ -143,3 +178,5 @@ the decision matrix with names and help texts.
   ground connection.
 - **Check the debug output** on PA9 at 115200 baud. It shows the GUID, the
   nickname and when the node becomes active.
+
+[Document version](./bottom-copyright.md ':include')

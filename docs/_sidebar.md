@@ -1,0 +1,7 @@
+* [Introduction](./README.md)
+* [Getting started](./getting-started.md)
+* [Hardware and wiring](./hardware.md)
+* [How the firmware works](./firmware.md)
+* [Registers, events and the decision matrix](./registers.md)
+* [Testing the node from a PC](./testing.md)
+* [VSCP documentation](https://docs.vscp.org)

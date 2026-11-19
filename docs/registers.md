@@ -157,3 +157,5 @@ Let TURN-ON (class 30, type 5) from any node turn the LED on, and TURN-OFF
 Stop the blinking first (clear bit 7 of the control register), or the LED
 will be toggled again by the blink function. With two blinky nodes on the
 bus, the button of one now controls the LED of the other.
+
+[Document version](./bottom-copyright.md ':include')

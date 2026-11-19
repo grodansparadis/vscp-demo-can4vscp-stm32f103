@@ -139,3 +139,5 @@ alone; the user sources and include paths are added there.
 
 Many Blue Pill boards have an STM32F103CB or a C8 that in practice has
 128 KB. The firmware works as it is; it just leaves the upper half unused.
+
+[Document version](./bottom-copyright.md ':include')

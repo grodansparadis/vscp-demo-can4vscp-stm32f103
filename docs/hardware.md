@@ -65,7 +65,7 @@ The CAN controller is clocked from APB1 at 36 MHz (8 MHz crystal, PLL × 9,
 | Bit time | 16 tq = 8 µs, 125 kbit/s |
 | Sample point | 87.5 % |
 
-Other bit rates, if your bus does not run at 125 kbit/s:
+Other **NON STANDARD** bit rates, if your bus does not run at 125 kbit/s:
 
 | Bit rate | Prescaler | Bit segment 1 | Bit segment 2 | Sample point |
 |----------|-----------|---------------|---------------|--------------|
@@ -77,3 +77,5 @@ Other bit rates, if your bus does not run at 125 kbit/s:
 Change the bit rate in `firmware/firmware.ioc` with STM32CubeMX (Connectivity,
 CAN, Parameter Settings) and generate the code again, or edit `MX_CAN_Init()`
 in `firmware/Core/Src/can.c`.
+
+[Document version](./bottom-copyright.md ':include')
